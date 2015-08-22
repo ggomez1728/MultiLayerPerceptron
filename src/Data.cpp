@@ -53,8 +53,3 @@ vector<Caso> Data::leerData(string archivo){
 	  }
 	  return dataReader;
 }
-
-Data::~Data() {
-	// TODO Auto-generated destructor stub
-}
-

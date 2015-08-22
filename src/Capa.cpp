@@ -15,14 +15,11 @@ Capa::Capa(int neuronas, int entradaXneurona) {
 }
 
 
-void Capa::inicializarNeuronas(){
+void Capa::inicializarCapa(){
   vector<Neurona>::iterator neuronaSel;
   for(neuronaSel = Neuronas.begin(); neuronaSel!=Neuronas.end(); neuronaSel++){
-	  neuronaSel->iniciarNeurona();
+	  neuronaSel->iniciarlizarNeurona();
   }
 }
 
-Capa::~Capa() {
-	// TODO Auto-generated destructor stub
-}
 

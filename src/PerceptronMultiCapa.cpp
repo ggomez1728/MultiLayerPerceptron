@@ -12,7 +12,7 @@
 #include <time.h>       /* time */
 //#include "cargar.h"
 using namespace std;
-#include "redMultiLabelPerceptron.h"
+#include "RedMultiCapaPerceptron.h"
 #include "Data.h"
 #include "Caso.h"
 int main() {
@@ -21,7 +21,8 @@ int main() {
   Data data;
   string la;
   dataTrain=data.leerData("data_train.txt");
-  redMultiLabelPerceptron RNA(data.getCapasRNA(),data.getEntradasRNA(),data.getOcultasRNA(),data.getSalidasRNA());
+  RedMultiCapaPerceptron RNA(data.getCapasRNA(),data.getEntradasRNA(),data.getOcultasRNA(),data.getSalidasRNA());
+  RNA.dataTrain = &dataTrain;
 inicializar:
   cout<<"(1) Inicializar Conexiones Aleatoriamente \n(2) Cargar Conexiones Sinápticas \n(x) Salir \n >";
   cin>>la;

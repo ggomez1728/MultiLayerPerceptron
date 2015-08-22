@@ -22,7 +22,4 @@ vector<float> Caso::getEntradasCaso(){
   return entradasCaso;
 }
 
-Caso::~Caso() {
-	// TODO Auto-generated destructor stub
-}
 

@@ -1,6 +1,6 @@
-src/PerceptronMultiCapa.d: ../src/PerceptronMultiCapa.cpp \
+src/RedMultiCapaPerceptron.d: ../src/RedMultiCapaPerceptron.cpp \
  ../src/RedMultiCapaPerceptron.h ../src/Capa.h ../src/Neurona.h \
- ../src/Caso.h ../src/Data.h
+ ../src/Caso.h
 
 ../src/RedMultiCapaPerceptron.h:
 
@@ -9,5 +9,3 @@ src/PerceptronMultiCapa.d: ../src/PerceptronMultiCapa.cpp \
 ../src/Neurona.h:
 
 ../src/Caso.h:
-
-../src/Data.h:

@@ -21,7 +21,7 @@ float Neurona::Activar(vector<float> entradas) const{
   return salidaFeedFwd;
 }
 
-void Neurona::iniciarNeurona(){
+void Neurona::iniciarlizarNeurona(){
   float pesoAleatorio;
   vector<float>::iterator pesoSel;
   for (pesoSel=pesos.begin(); pesoSel!=pesos.end(); pesoSel++){
@@ -30,6 +30,7 @@ void Neurona::iniciarNeurona(){
   }
 
 }
+
 void Neurona::actualizarPesos(){
 
 }
@@ -40,7 +41,4 @@ vector<float> Neurona::Actualizar_Pesos(vector<float> deltas){
   return pesos_backPro;
 }
 
-Neurona::~Neurona() {
-	// TODO Auto-generated destructor stub
-}
 

@@ -13,8 +13,7 @@ class Capa {
   vector<Neurona> Neuronas;
 public:
 	Capa(int neuronas,  int entradaXneurona);
-	void inicializarNeuronas();
-	virtual ~Capa();
+	void inicializarCapa();
 };
 
 #endif /* CAPA_H_ */

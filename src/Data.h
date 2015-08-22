@@ -28,7 +28,6 @@ public:
 	int getOcultasRNA();
 	int getSalidasRNA();
 	vector<Caso> leerData(string archivo);
-	virtual ~Data();
 };
 
 #endif /* CARGARDATA_H_ */

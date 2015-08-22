@@ -17,7 +17,6 @@ public:
 	void cargarCaso(vector<float> entradas, vector<float> salidas);
 	vector<float> getEntradasCaso();
 	vector<float> getSalidasCaso();
-	virtual ~Caso();
 };
 
 #endif /* CASO_H_ */

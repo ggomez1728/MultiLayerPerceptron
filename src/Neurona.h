@@ -23,8 +23,7 @@ public:
   float Activar(vector<float> entradas) const;
   vector<float> Actualizar_Pesos(vector<float> deltas);
   void actualizarPesos();
-  void iniciarNeurona();
-  virtual ~Neurona();
+  void iniciarlizarNeurona();
 };
 
 #endif /* NEURONA_H_ */
