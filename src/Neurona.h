@@ -16,9 +16,9 @@
 
 using namespace std;
 class Neurona {
+public:
   vector<float> pesos;
   float salida;
-public:
   Neurona(int entradas);
   float Activar(vector<float> entradas) const;
   vector<float> Actualizar_Pesos(vector<float> deltas);

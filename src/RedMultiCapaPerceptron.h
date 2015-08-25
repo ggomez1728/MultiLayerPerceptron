@@ -13,18 +13,20 @@
 using namespace std;
 class RedMultiCapaPerceptron {
   int numCapas;
-  vector<Capa> capaVector;
-  vector<float> ultimaActivacion;
+
+
   void calcularError();
   void backPropagation();
-  void AjustarPesos();
-  void FeedForward(vector<float> entradas);
+  void ajustarPesos();
+  void feedForward(vector<float> entradas);
 public:
+  vector<Capa> capaVector;
+  vector<float> ultimaActivacion;
   vector<Caso> *dataTrain;
   RedMultiCapaPerceptron(int capas, int entradas, int salidas, int ocultas);
   void inicializarPesos();
   void activar();
-  //void entrenar(vector<Caso> datosEntrenamiento);
+  void entrenar();
 };
 
 #endif /* REDMULTILABELPERCEPTRON_H_ */

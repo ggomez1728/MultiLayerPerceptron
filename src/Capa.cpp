@@ -14,7 +14,6 @@ Capa::Capa(int neuronas, int entradaXneurona) {
   }
 }
 
-
 void Capa::inicializarCapa(){
   vector<Neurona>::iterator neuronaSel;
   for(neuronaSel = Neuronas.begin(); neuronaSel!=Neuronas.end(); neuronaSel++){
@@ -22,4 +21,11 @@ void Capa::inicializarCapa(){
   }
 }
 
-
+void Capa::cargarEntrada(vector<float> entradas){
+  int numNeurona=0;
+  vector<Neurona>::iterator neuronaSel;
+  for(neuronaSel = Neuronas.begin(); neuronaSel!=Neuronas.end(); neuronaSel++){
+	neuronaSel->salida = entradas[numNeurona] * neuronaSel->pesos[0] ;
+    numNeurona++;
+  }
+}

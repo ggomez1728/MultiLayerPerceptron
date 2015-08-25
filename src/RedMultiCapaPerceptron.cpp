@@ -30,20 +30,40 @@ void RedMultiCapaPerceptron::inicializarPesos(){
 void RedMultiCapaPerceptron::activar(){
   vector<Caso>::iterator datai;
   for(datai=dataTrain->begin(); datai!=dataTrain->end();datai++){
-
-	//FeedForward(datai->entradasCaso);
+    //FeedForward(datai->getEntradasCaso());
 
   }
 }
 
-void RedMultiCapaPerceptron::FeedForward(vector<float> entradas){
-  vector<float>::iterator ii;
+void RedMultiCapaPerceptron::feedForward(vector<float> entradas){
+  //cargo las entradas del caso a la capa de entrada del multiCapa
+  /*vector<float>::iterator ii;
   for (ii=entradas.begin();ii!=entradas.end(); ii++){
 
+  }*/
+  int sizeEntrada = entradas.size();
+
+}
+
+void RedMultiCapaPerceptron::entrenar(){
+  vector<Caso>::iterator cc;
+
+  for(cc=dataTrain->begin();cc!=dataTrain->end();cc++){
+	/*int noNeurona = 0;
+	//cargar entradas de entrenamiento
+	vector<float>::iterator nn;
+	for(nn=cc->entradasCaso.begin(); nn!=cc->entradasCaso.end(); nn++){
+	  capaVector[0].Neuronas[noNeurona].salida =
+			  *nn * (capaVector[0].Neuronas[noNeurona].pesos[0]);
+	  noNeurona++;
+	}
+*/
+    capaVector[0].cargarEntrada(cc->entradasCaso);
+
   }
 }
 
-void RedMultiCapaPerceptron::AjustarPesos(){
+void RedMultiCapaPerceptron::ajustarPesos(){
 
 }
 

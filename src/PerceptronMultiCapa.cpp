@@ -43,7 +43,7 @@ Acciones:
   cout<<"(1) Entrenar Perceptron \n(2) Ejecutar Perceptron \n(3) Meter Ruido \n(x) Salir \n >";
   cin>>la;
   if(la=="1"){
-
+	  RNA.entrenar();
   }
   else if(la=="2"){
 

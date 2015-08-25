@@ -16,9 +16,9 @@ Neurona::Neurona(int entradas) {
 }
 
 float Neurona::Activar(vector<float> entradas) const{
-  float salidaFeedFwd = 0;
+  //salida=0;
 
-  return salidaFeedFwd;
+  return salida;
 }
 
 void Neurona::iniciarlizarNeurona(){

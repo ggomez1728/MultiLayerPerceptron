@@ -10,13 +10,12 @@
 #include <vector>
 using namespace std;
 class Caso {
-	vector<float> entradasCaso;
-	vector<float> salidasCaso;
+
 public:
-	Caso();
-	void cargarCaso(vector<float> entradas, vector<float> salidas);
-	vector<float> getEntradasCaso();
-	vector<float> getSalidasCaso();
+  vector<float> entradasCaso;
+  vector<float> salidasCaso;
+  Caso();
+  void cargarCaso(vector<float> entradas, vector<float> salidas);
 };
 
 #endif /* CASO_H_ */

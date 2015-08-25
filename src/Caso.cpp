@@ -15,11 +15,5 @@ entradasCaso=entradas;
 salidasCaso=salidas;
 }
 
-vector<float> Caso::getSalidasCaso(){
-  return salidasCaso;
-}
-vector<float> Caso::getEntradasCaso(){
-  return entradasCaso;
-}
 
 
