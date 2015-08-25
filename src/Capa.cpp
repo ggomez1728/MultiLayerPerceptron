@@ -21,11 +21,24 @@ void Capa::inicializarCapa(){
   }
 }
 
-void Capa::cargarEntrada(vector<float> entradas){
+vector<float> Capa::cargarEntrada(vector<float> entradas, bool multiEntrada){
+  vector<float> salidasCapa;
   int numNeurona=0;
   vector<Neurona>::iterator neuronaSel;
   for(neuronaSel = Neuronas.begin(); neuronaSel!=Neuronas.end(); neuronaSel++){
-	neuronaSel->salida = entradas[numNeurona] * neuronaSel->pesos[0] ;
-    numNeurona++;
+	if(multiEntrada){
+	  numNeurona=0;
+      vector<float>::iterator mm;
+      for(mm = entradas.begin(); mm != entradas.end(); mm++){
+        neuronaSel->salida += *mm * entradas[numNeurona];
+        numNeurona++;
+      }
+	}
+	else{
+	  neuronaSel->salida = entradas[numNeurona] * neuronaSel->pesos[0] ;
+	  numNeurona++;
+	}
+	salidasCapa.push_back(neuronaSel->salida);
   }
+  return salidasCapa;
 }

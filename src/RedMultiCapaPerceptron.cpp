@@ -15,8 +15,8 @@ RedMultiCapaPerceptron::RedMultiCapaPerceptron(int capas, int entradas, int ocul
   Capa CapaSalida(salidas,ocultas);
   capaVector.push_back(CapaEntrada);
   if (capas>2)
-	for (int i = 2; i< capas;i++ )
-		capaVector.push_back(CapaSalida);
+    for (int i = 2; i< capas;i++ )
+	  capaVector.push_back(CapaSalida);
   capaVector.push_back(CapaSalida);
 }
 
@@ -35,30 +35,15 @@ void RedMultiCapaPerceptron::activar(){
   }
 }
 
-void RedMultiCapaPerceptron::feedForward(vector<float> entradas){
-  //cargo las entradas del caso a la capa de entrada del multiCapa
-  /*vector<float>::iterator ii;
-  for (ii=entradas.begin();ii!=entradas.end(); ii++){
-
-  }*/
-  int sizeEntrada = entradas.size();
-
-}
-
 void RedMultiCapaPerceptron::entrenar(){
   vector<Caso>::iterator cc;
-
   for(cc=dataTrain->begin();cc!=dataTrain->end();cc++){
-	/*int noNeurona = 0;
-	//cargar entradas de entrenamiento
-	vector<float>::iterator nn;
-	for(nn=cc->entradasCaso.begin(); nn!=cc->entradasCaso.end(); nn++){
-	  capaVector[0].Neuronas[noNeurona].salida =
-			  *nn * (capaVector[0].Neuronas[noNeurona].pesos[0]);
-	  noNeurona++;
-	}
-*/
-    capaVector[0].cargarEntrada(cc->entradasCaso);
+	//Activacion primera capa
+	ultimaActivacion = capaVector[0].cargarEntrada(cc->entradasCaso,false);
+    //activacion  de capas  siguientes hasta la salida
+	for(int noCapa = 1; noCapa < numCapas; noCapa++){
+      ultimaActivacion = capaVector[noCapa].cargarEntrada(ultimaActivacion,true);
+    }
 
   }
 }
@@ -75,4 +60,10 @@ void  RedMultiCapaPerceptron::backPropagation(){
 
 }
 
+
+void RedMultiCapaPerceptron::feedForward(vector<float> entradas){
+  //cargo las entradas del caso a la capa de entrada del multiCapa
+  int sizeEntrada = entradas.size();
+
+}
 
