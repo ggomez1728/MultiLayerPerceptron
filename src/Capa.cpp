@@ -9,16 +9,20 @@
 
 Capa::Capa(int neuronas, int entradaXneurona) {
   // TODO Auto-generated constructor stub
-  for (int i = 0; i< neuronas;i++ ){
-	  Neuronas.push_back(entradaXneurona);
-  }
+	Neuronas.resize(neuronas,entradaXneurona);
 }
 
 void Capa::inicializarCapa(){
   vector<Neurona>::iterator neuronaSel;
   for(neuronaSel = Neuronas.begin(); neuronaSel!=Neuronas.end(); neuronaSel++){
-	  neuronaSel->iniciarlizarNeurona();
+	neuronaSel->iniciarlizarNeurona();
   }
+}
+
+void Capa::agregarBias(){
+  Neuronas.end()->esBias=true;
+  Neuronas.end()->pesos.resize(1);
+  Neuronas.end()->pesos[0]=1;
 }
 
 vector<float> Capa::cargarEntrada(vector<float> entradas, bool multiEntrada){
@@ -35,10 +39,44 @@ vector<float> Capa::cargarEntrada(vector<float> entradas, bool multiEntrada){
       }
 	}
 	else{
-	  neuronaSel->salida = entradas[numNeurona] * neuronaSel->pesos[0] ;
+	  neuronaSel->salida = entradas[numNeurona] * neuronaSel->pesos[0];
 	  numNeurona++;
 	}
 	salidasCapa.push_back(neuronaSel->salida);
+  }
+  return salidasCapa;
+}
+
+void Capa::cargarSimpleEntradas(vector<float> entradas){
+  vector<Neurona>::iterator neuronaSel;
+  vector<float>::iterator entradaSel;
+  vector<float> entradaSimple(1);
+  for(neuronaSel = Neuronas.begin(), entradaSel = entradas.begin();
+	neuronaSel!=Neuronas.end(), entradaSel != entradas.end(); neuronaSel++, entradaSel++){
+    //cargar capa de entrada
+	entradaSimple[0]=*entradaSel;
+	neuronaSel->cargarEntradas(entradaSimple);
+  }
+}
+
+void Capa::cargarMultiEntradas(vector<float> entradas){
+  vector<Neurona>::iterator neuronaSel;
+  for(neuronaSel = Neuronas.begin(); neuronaSel!=Neuronas.end(); neuronaSel++){
+	//cargar capa de entrada
+	if(!neuronaSel->esBias)
+	  neuronaSel->cargarEntradas(entradas);
+  }
+}
+
+vector<float> Capa::ActivarCapa(){
+  vector<float> salidasCapa;
+  vector<Neurona>::iterator neuronaSel;
+  vector<float>::iterator pesosSel;
+  salidasCapa.resize(Neuronas.size());
+  int salidaSelect=0;
+  for(neuronaSel = Neuronas.begin(); neuronaSel!=Neuronas.end(); neuronaSel++){
+	salidasCapa[salidaSelect]=neuronaSel->salida;
+	++salidaSelect;
   }
   return salidasCapa;
 }

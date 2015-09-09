@@ -14,7 +14,11 @@ public:
   vector<Neurona> Neuronas;
   Capa(int neuronas,  int entradaXneurona);
   void inicializarCapa();
+  void agregarBias();
   vector<float> cargarEntrada(vector<float> entradas, bool multiEntrada);
+  void cargarMultiEntradas(vector<float> entradas);
+  void cargarSimpleEntradas(vector<float> entradas);
+  vector<float> ActivarCapa();
 };
 
 #endif /* CAPA_H_ */

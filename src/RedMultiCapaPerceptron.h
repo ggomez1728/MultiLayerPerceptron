@@ -13,10 +13,8 @@
 using namespace std;
 class RedMultiCapaPerceptron {
   int numCapas;
-
-
   void calcularError();
-  void backPropagation();
+  void backPropagation(vector<float> salidas);
   void ajustarPesos();
   void feedForward(vector<float> entradas);
 public:
