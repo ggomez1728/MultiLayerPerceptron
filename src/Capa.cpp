@@ -18,7 +18,13 @@ void Capa::inicializarCapa(){
 	neuronaSel->iniciarlizarNeurona();
   }
 }
+vector<float> Capa::calcularErrorCapa(vector<float> salidaEsperada){
+  vector<float> deltas;
+  for(int neuronSel=0; neuronSel < salidaEsperada.size();neuronSel++){
 
+  }
+  return deltas;
+}
 void Capa::agregarBias(){
   Neuronas.end()->esBias=true;
   Neuronas.end()->pesos.resize(1);

@@ -31,6 +31,7 @@ public:
   void actualizarPesos();
   void iniciarlizarNeurona();
   void cargarEntradas(vector<float> entradas);
+  void calcularErrorNeurona(float valorDeseado);
 };
 
 #endif /* NEURONA_H_ */

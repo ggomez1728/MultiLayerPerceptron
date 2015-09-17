@@ -46,7 +46,9 @@ void Neurona::cargarEntradas(vector<float> entradas){
   }
   else salida = pesos[0];
 }
+void Neurona::calcularErrorNeurona(float valorDeseado){
 
+}
 void Neurona::actualizarPesos(){
 
 }
