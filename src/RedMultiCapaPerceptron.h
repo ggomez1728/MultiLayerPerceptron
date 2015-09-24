@@ -19,6 +19,7 @@ class RedMultiCapaPerceptron {
   //umbral
   float threshold;
   int epochs;
+  float errorTotal;
   void backPropagation(vector<float> salidas);
   void ajustarPesos();
   void feedForward(vector<float> entradas);
@@ -30,8 +31,10 @@ public:
   void inicializarPesos();
   void activar();
   void entrenar();
+  void imprimirError(vector<float> errores);
   void imprimirPesos();
   void imprimirSalidas();
+
 };
 
 #endif /* REDMULTILABELPERCEPTRON_H_ */

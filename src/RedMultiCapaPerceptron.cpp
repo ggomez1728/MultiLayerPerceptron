@@ -47,7 +47,7 @@ void RedMultiCapaPerceptron::entrenar(){
   //iterado la cantidad de epocas definidas anteriormente
   for(int noEpoch=0; noEpoch<epochs; noEpoch++){
 	//recorre todos los casos uno a uno
-	cout<<"Epoca: "<<noEpoch << endl;
+	cout<<"<<<<<EPOCA>>>>>: "<<noEpoch << endl;
     for(vector<Caso>::iterator cc=dataTrain->begin();cc!=dataTrain->end();cc++){
 	  //Carga y Activacion primera capa en caso de que la entrada de cada neurona
 	  //tenga una conexion Simple, <ultimaActivacion> tiene la salidas
@@ -78,12 +78,25 @@ void RedMultiCapaPerceptron::feedForward(vector<float> entradas){
 void  RedMultiCapaPerceptron::backPropagation(vector<float> salidas){
   vector<Capa>::iterator capaSel;
   vector<float> deltasTemp;
-  deltasTemp = capaVector.end()->calcularErrorCapa(salidas);
+  errorTotal=0;
+  deltasTemp = capaVector[numCapas-1].calcularErrorCapa(salidas);
+  imprimirError(deltasTemp);
+  //calcular el error total cuadratico
+  for (vector<float>::iterator errorSel=deltasTemp.begin();errorSel!=deltasTemp.end(); errorSel++){
+	  errorTotal += pow(*errorSel, 2)/2;
+  }
+  cout << "Error Total:" << errorTotal<< endl;
   for (capaSel=capaVector.end();capaSel!=capaVector.begin();--capaSel){
 
   }
 }
-
+void RedMultiCapaPerceptron::imprimirError(vector<float> errores){
+vector<float>::iterator errorSel;
+int salida=0;
+for(errorSel=errores.begin(); errorSel!=errores.end(); errorSel++){
+  cout << "Error Salida("<< salida++<<")"<< *errorSel << endl;
+}
+}
 void RedMultiCapaPerceptron::ajustarPesos(){
 
 }
