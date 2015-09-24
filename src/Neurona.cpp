@@ -24,27 +24,23 @@ float Neurona::activarEntradas(vector<float> entradas) const{
 void Neurona::iniciarlizarNeurona(){
   float pesoAleatorio;
   vector<float>::iterator pesoSel;
-  if (!esBias){
-  	for (pesoSel=pesos.begin(); pesoSel!=pesos.end(); pesoSel++){
-	  pesoAleatorio=((float) rand() / (RAND_MAX));
-	  *pesoSel=pesoAleatorio;
-  	}
-  }
-  else{
-	  pesos[0]=1;
+  for (pesoSel=pesos.begin(); pesoSel!=pesos.end(); pesoSel++){
+	pesoAleatorio=((float) rand() / (RAND_MAX));
+	*pesoSel=pesoAleatorio;
   }
 }
 
 void Neurona::cargarEntradas(vector<float> entradas){
   vector<float>::iterator pesoSel, entradaSel;
+  salida=0;
   if(!esBias){
 	for(pesoSel=pesos.begin(), entradaSel=entradas.begin();
 	    pesoSel!=pesos.end(); pesoSel++, entradaSel++){
 	  salida+=(*pesoSel)*(*entradaSel);
     }
-	salida=bipolar_sigmoidal(salida);
   }
   else salida = pesos[0];
+  salida=bipolar_sigmoidal(salida);
 }
 void Neurona::calcularErrorNeurona(float valorDeseado){
 

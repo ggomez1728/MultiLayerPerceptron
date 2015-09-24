@@ -15,6 +15,7 @@ class RedMultiCapaPerceptron {
   int numCapas;
   //learning rate
   float learn_rate;
+  float momentum;
   //umbral
   float threshold;
   int epochs;
@@ -29,6 +30,8 @@ public:
   void inicializarPesos();
   void activar();
   void entrenar();
+  void imprimirPesos();
+  void imprimirSalidas();
 };
 
 #endif /* REDMULTILABELPERCEPTRON_H_ */

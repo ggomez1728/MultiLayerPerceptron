@@ -12,7 +12,7 @@ using namespace std;
 class Capa {
 public:
   vector<Neurona> Neuronas;
-  Capa(int neuronas,  int entradaXneurona);
+  Capa(int neuronas,  int entradaXneurona, bool isBias);
   void inicializarCapa();
   void agregarBias();
   vector<float> calcularErrorCapa(vector<float> salidaEsperada);

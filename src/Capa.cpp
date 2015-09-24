@@ -2,14 +2,15 @@
  * Capa.cpp
  *
  *  Created on: 15 de ago. de 2015
- *      Author: german
+ *      Author: German Gomez
  */
 
 #include "Capa.h"
 
-Capa::Capa(int neuronas, int entradaXneurona) {
+Capa::Capa(int neuronas, int entradaXneurona, bool isBias) {
   // TODO Auto-generated constructor stub
 	Neuronas.resize(neuronas,entradaXneurona);
+	if(isBias)agregarBias();
 }
 
 void Capa::inicializarCapa(){
@@ -20,15 +21,18 @@ void Capa::inicializarCapa(){
 }
 vector<float> Capa::calcularErrorCapa(vector<float> salidaEsperada){
   vector<float> deltas;
-  for(int neuronSel=0; neuronSel < salidaEsperada.size();neuronSel++){
-
+  deltas.resize(salidaEsperada.size());
+  if (salidaEsperada.size() == Neuronas.size()){
+	for(int neuronSel=0; neuronSel < salidaEsperada.size(); neuronSel++){
+      deltas[neuronSel] = salidaEsperada[neuronSel]-Neuronas[neuronSel].salida;
+    }
   }
   return deltas;
 }
 void Capa::agregarBias(){
-  Neuronas.end()->esBias=true;
-  Neuronas.end()->pesos.resize(1);
-  Neuronas.end()->pesos[0]=1;
+  Neurona neuronaBias(1);
+  neuronaBias.esBias = true;
+  Neuronas.push_back(neuronaBias);
 }
 
 vector<float> Capa::cargarEntrada(vector<float> entradas, bool multiEntrada){
@@ -55,13 +59,14 @@ vector<float> Capa::cargarEntrada(vector<float> entradas, bool multiEntrada){
 
 void Capa::cargarSimpleEntradas(vector<float> entradas){
   vector<Neurona>::iterator neuronaSel;
-  vector<float>::iterator entradaSel;
+  int entradaSel=0;
   vector<float> entradaSimple(1);
-  for(neuronaSel = Neuronas.begin(), entradaSel = entradas.begin();
-	neuronaSel!=Neuronas.end(), entradaSel != entradas.end(); neuronaSel++, entradaSel++){
+  for(neuronaSel = Neuronas.begin(); neuronaSel!=Neuronas.end(); neuronaSel++){
     //cargar capa de entrada
-	entradaSimple[0]=*entradaSel;
+	entradaSimple[0]=entradas[entradaSel];
 	neuronaSel->cargarEntradas(entradaSimple);
+	if(!neuronaSel->esBias)
+	  entradaSel++;
   }
 }
 
