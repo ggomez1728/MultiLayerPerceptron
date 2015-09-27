@@ -13,7 +13,7 @@ RedMultiCapaPerceptron::RedMultiCapaPerceptron(int capas, int entradas, int ocul
   learn_rate = 0.5;
   //Normalmente momentum debe ser un valor entre 0.1 y 0.9.
   momentum = 0.2;
-  epochs = 30;
+  epochs = 100;
   numCapas=capas;
   //En CapaEntrada y CapasOculta se adiciona  una neurona para el bias
   Capa CapaEntrada(entradas,1,true);
@@ -93,22 +93,12 @@ void  RedMultiCapaPerceptron::backPropagation(vector<float> salidas){
   // Calculamos la derivada parcial del Error Total  con respecto a cada salida,
   // para actualizar los pesos de la capa de salida, este derivada esta representada por:
   // <-deltasTemp>
-
   // La derivada parcial de la función logística es la salida multiplicado por 1 menos la salida:
-  //
-  // BackPorpagation capa salida
-
-  //recorremos cada neurona de la capa
+  // BackPorpagation capa salida, recorremos cada neurona de la capa
   vector <Neurona>::iterator neuronaSel;
   vector <float>::iterator pesoSel;
   cout << "Regla delta calculada" << endl;
-  /*int errorSel=0;
-  for(neuronaSel=capaVector[numCapas-1].Neuronas.begin(); neuronaSel!=capaVector[numCapas-1].Neuronas.end(); neuronaSel++){
-	neuronaSel->valorDelta=-errorParcial[errorSel] * (neuronaSel->salida * (1 - neuronaSel->salida));
-	++errorSel;
-  }
-  */
-  for (int capaSel = numCapas; capaSel>0; --capaSel){
+  for (int capaSel = numCapas-1; capaSel>=0; --capaSel){
     //calculando los valores delta para la capa de salida
 	if (capaSel==numCapas-1){
       int errorSel=0;
@@ -117,10 +107,15 @@ void  RedMultiCapaPerceptron::backPropagation(vector<float> salidas){
 		++errorSel;
 	  }
 	}
-	else if (capaSel<numCapas-1){
-	  for(int deltaCapa = numCapas-1; deltaCapa == capaSel; deltaCapa--){
-		//neuronaSel->valorDelta=-errorParcial[errorSel] * (neuronaSel->salida * (1 - neuronaSel->salida));
-	  }
+	else if (capaSel==numCapas-2){
+	  for(int deltaSel=0; deltaSel < capaVector[capaSel].Neuronas.size(); deltaSel++){
+		//CALCULO DE LAS DERIVADAS PARACIALES DE ERROR DE CADA SALIDA CON RESPECTO A  LA CAPA OCULTA QUE LE ANTECEDE
+		capaVector[capaSel].Neuronas[deltaSel].valorDelta=0;
+		for(neuronaSel=capaVector[numCapas-1].Neuronas.begin(); neuronaSel!=capaVector[numCapas-1].Neuronas.end(); neuronaSel++){
+		  capaVector[capaSel].Neuronas[deltaSel].valorDelta+=neuronaSel->pesos[deltaSel]*neuronaSel->valorDelta;
+	    }
+		capaVector[capaSel].Neuronas[deltaSel].valorDelta *= capaVector[capaSel].Neuronas[deltaSel].salida*(1-capaVector[capaSel].Neuronas[deltaSel].salida);
+   	  }
 	}
   }
 }
@@ -128,18 +123,21 @@ void RedMultiCapaPerceptron::ajustarPesos(){
   //Actualizar pesos capa de salida
   vector <Neurona>::iterator neuronaSel;
   vector <float>::iterator pesoSel;
-  for(neuronaSel=capaVector[numCapas-1].Neuronas.begin(); neuronaSel!=capaVector[numCapas-1].Neuronas.end(); neuronaSel++){
-	cout << "Neurona: " ;
-	int hidenSel = 0;
-	for(pesoSel=neuronaSel->pesos.begin(); pesoSel!=neuronaSel->pesos.end(); pesoSel++){
-	  cout << *pesoSel << " -> ";
-	  *pesoSel = *pesoSel-learn_rate*(neuronaSel->valorDelta * capaVector[numCapas-2].Neuronas[hidenSel].salida);
-	  cout << *pesoSel << "; ";
-	  hidenSel++;
-	}
-	cout << endl;
-   }
-
+  for (int capaSel = numCapas-1; capaSel>=1; capaSel--){
+	//Actualizando los pesos
+	cout << "Capa("<< capaSel <<") "<<endl ;
+	for(neuronaSel=capaVector[capaSel].Neuronas.begin(); neuronaSel!=capaVector[capaSel].Neuronas.end(); neuronaSel++){
+	  cout << "         Neurona: " ;
+	  int hidenSel = 0;
+ 	  for(pesoSel=neuronaSel->pesos.begin(); pesoSel!=neuronaSel->pesos.end(); pesoSel++){
+	    cout << *pesoSel << " -> ";
+	    *pesoSel = *pesoSel-learn_rate*(neuronaSel->valorDelta * capaVector[capaSel-1].Neuronas[hidenSel].salida);
+	    cout << *pesoSel << "; ";
+	    hidenSel++;
+	  }
+	  cout << endl;
+    }
+  }
 }
 
 
