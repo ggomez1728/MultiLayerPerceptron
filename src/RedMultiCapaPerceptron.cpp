@@ -13,7 +13,7 @@ RedMultiCapaPerceptron::RedMultiCapaPerceptron(int capas, int entradas, int ocul
   learn_rate = 0.5;
   //Normalmente momentum debe ser un valor entre 0.1 y 0.9.
   momentum = 0.2;
-  epochs = 3;
+  epochs = 30;
   numCapas=capas;
   //En CapaEntrada y CapasOculta se adiciona  una neurona para el bias
   Capa CapaEntrada(entradas,1,true);
@@ -54,6 +54,7 @@ void RedMultiCapaPerceptron::entrenar(){
 	  feedForward(cc->entradasCaso);
 	  imprimirSalidas();
 	  backPropagation(cc->salidasCaso);
+	  ajustarPesos();
 	  //calculamos el error en la epoca
 
 	  //actualizamos los pesos
@@ -76,29 +77,78 @@ void RedMultiCapaPerceptron::feedForward(vector<float> entradas){
 }
 
 void  RedMultiCapaPerceptron::backPropagation(vector<float> salidas){
-  vector<Capa>::iterator capaSel;
-  vector<float> deltasTemp;
+
+  vector<float> errorParcial;
   errorTotal=0;
-  deltasTemp = capaVector[numCapas-1].calcularErrorCapa(salidas);
-  imprimirError(deltasTemp);
+  //calculamos la diferencia entre la salida esperada y la salida calculada en el feedforward
+  errorParcial = capaVector[numCapas-1].calcularErrorCapa(salidas);
+  imprimirError(errorParcial);
   //calcular el error total cuadratico
-  for (vector<float>::iterator errorSel=deltasTemp.begin();errorSel!=deltasTemp.end(); errorSel++){
+  for (vector<float>::iterator errorSel=errorParcial.begin();errorSel!=errorParcial.end(); errorSel++){
 	  errorTotal += pow(*errorSel, 2)/2;
   }
   cout << "Error Total:" << errorTotal<< endl;
-  for (capaSel=capaVector.end();capaSel!=capaVector.begin();--capaSel){
+  // The Backwards Pass
+  // Aplicando regla de la cadena sabemos
+  // Calculamos la derivada parcial del Error Total  con respecto a cada salida,
+  // para actualizar los pesos de la capa de salida, este derivada esta representada por:
+  // <-deltasTemp>
 
+  // La derivada parcial de la función logística es la salida multiplicado por 1 menos la salida:
+  //
+  // BackPorpagation capa salida
+
+  //recorremos cada neurona de la capa
+  vector <Neurona>::iterator neuronaSel;
+  vector <float>::iterator pesoSel;
+  cout << "Regla delta calculada" << endl;
+  /*int errorSel=0;
+  for(neuronaSel=capaVector[numCapas-1].Neuronas.begin(); neuronaSel!=capaVector[numCapas-1].Neuronas.end(); neuronaSel++){
+	neuronaSel->valorDelta=-errorParcial[errorSel] * (neuronaSel->salida * (1 - neuronaSel->salida));
+	++errorSel;
+  }
+  */
+  for (int capaSel = numCapas; capaSel>0; --capaSel){
+    //calculando los valores delta para la capa de salida
+	if (capaSel==numCapas-1){
+      int errorSel=0;
+	  for(neuronaSel=capaVector[capaSel].Neuronas.begin(); neuronaSel!=capaVector[capaSel].Neuronas.end(); neuronaSel++){
+		neuronaSel->valorDelta=-errorParcial[errorSel] * (neuronaSel->salida * (1 - neuronaSel->salida));
+		++errorSel;
+	  }
+	}
+	else if (capaSel<numCapas-1){
+	  for(int deltaCapa = numCapas-1; deltaCapa == capaSel; deltaCapa--){
+		//neuronaSel->valorDelta=-errorParcial[errorSel] * (neuronaSel->salida * (1 - neuronaSel->salida));
+	  }
+	}
   }
 }
-void RedMultiCapaPerceptron::imprimirError(vector<float> errores){
-vector<float>::iterator errorSel;
-int salida=0;
-for(errorSel=errores.begin(); errorSel!=errores.end(); errorSel++){
-  cout << "Error Salida("<< salida++<<")"<< *errorSel << endl;
-}
-}
 void RedMultiCapaPerceptron::ajustarPesos(){
+  //Actualizar pesos capa de salida
+  vector <Neurona>::iterator neuronaSel;
+  vector <float>::iterator pesoSel;
+  for(neuronaSel=capaVector[numCapas-1].Neuronas.begin(); neuronaSel!=capaVector[numCapas-1].Neuronas.end(); neuronaSel++){
+	cout << "Neurona: " ;
+	int hidenSel = 0;
+	for(pesoSel=neuronaSel->pesos.begin(); pesoSel!=neuronaSel->pesos.end(); pesoSel++){
+	  cout << *pesoSel << " -> ";
+	  *pesoSel = *pesoSel-learn_rate*(neuronaSel->valorDelta * capaVector[numCapas-2].Neuronas[hidenSel].salida);
+	  cout << *pesoSel << "; ";
+	  hidenSel++;
+	}
+	cout << endl;
+   }
 
+}
+
+
+void RedMultiCapaPerceptron::imprimirError(vector<float> errores){
+  vector<float>::iterator errorSel;
+  int salida=0;
+  for(errorSel=errores.begin(); errorSel!=errores.end(); errorSel++){
+    cout << "Error Salida("<< salida++<<")"<< *errorSel << endl;
+  }
 }
 
 void RedMultiCapaPerceptron::imprimirPesos(){

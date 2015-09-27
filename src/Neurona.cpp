@@ -40,7 +40,8 @@ void Neurona::cargarEntradas(vector<float> entradas){
     }
   }
   else salida = pesos[0];
-  salida=bipolar_sigmoidal(salida);
+  //utiliza la funcion de activacion
+  salida=binary_sigmoidal(salida);
 }
 void Neurona::calcularErrorNeurona(float valorDeseado){
 
