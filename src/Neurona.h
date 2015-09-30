@@ -22,13 +22,14 @@ class Neurona {
 public:
   vector<float> pesos;
   float salida;
+  float salidaDerivada;
   float valorDelta;
   bool esBias;
+  bool esEntrada;
 
   Neurona(int entradas);
   float activarEntradas(vector<float> entradas) const;
   vector<float> actualizarPesos(vector<float> deltas);
-  void actualizarPesos();
   void iniciarlizarNeurona();
   void cargarEntradas(vector<float> entradas);
   void calcularErrorNeurona(float valorDeseado);

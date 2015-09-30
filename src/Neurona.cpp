@@ -9,44 +9,48 @@
 
 Neurona::Neurona(int entradas) {
   // TODO Auto-generated constructor stub
-  salida = 0;
+  salida = 1;
+  salidaDerivada=0;
   pesos.resize(entradas,0);
   esBias=false;
+  esEntrada=false;
   valorDelta=0;
+
 }
 
 float Neurona::activarEntradas(vector<float> entradas) const{
   //salida=0;
-
   return salida;
 }
 
 void Neurona::iniciarlizarNeurona(){
   float pesoAleatorio;
   vector<float>::iterator pesoSel;
-  for (pesoSel=pesos.begin(); pesoSel!=pesos.end(); pesoSel++){
-	pesoAleatorio=((float) rand() / (RAND_MAX));
-	*pesoSel=pesoAleatorio;
+  if(esBias)pesos[0]=1;
+  else{
+    for (pesoSel=pesos.begin(); pesoSel!=pesos.end(); pesoSel++){
+	  pesoAleatorio= 2 * ((float) rand() / (RAND_MAX)) - 1;
+	  *pesoSel=pesoAleatorio;
+    }
   }
 }
 
 void Neurona::cargarEntradas(vector<float> entradas){
-  vector<float>::iterator pesoSel, entradaSel;
-  salida=0;
-  if(!esBias){
-	for(pesoSel=pesos.begin(), entradaSel=entradas.begin();
-	    pesoSel!=pesos.end(); pesoSel++, entradaSel++){
-	  salida+=(*pesoSel)*(*entradaSel);
-    }
+  if (!esEntrada){
+	salida=0;
+	if(pesos.size() == entradas.size()){
+	for(int selector = 0; selector < pesos.size(); selector++){
+	  salida += pesos[selector] * entradas[selector];
+	}
+	salida=binary_sigmoidal(salida);
+	salidaDerivada=salida*(1-salida);
+	}
   }
-  else salida = pesos[0];
-  //utiliza la funcion de activacion
-  salida=binary_sigmoidal(salida);
+  else{
+	salida =entradas[0];
+  }
 }
 void Neurona::calcularErrorNeurona(float valorDeseado){
-
-}
-void Neurona::actualizarPesos(){
 
 }
 

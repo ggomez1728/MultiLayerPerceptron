@@ -44,6 +44,8 @@ vector<Caso> Data::leerData(string archivo){
 		  leer >> readVar;
 		  entradasReader.push_back(readVar);
 		}
+		//carga la entrada del bias
+		entradasReader.push_back(1);
 		for(int j = 0; j < salidasRNA; j++) {
 		  leer >> readVar;
 	      salidasReader.push_back(readVar);

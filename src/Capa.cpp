@@ -9,6 +9,7 @@
 
 Capa::Capa(int neuronas, int entradaXneurona, bool isBias) {
   // TODO Auto-generated constructor stub
+	Delta=0;
 	Neuronas.resize(neuronas,entradaXneurona);
 	if(isBias)agregarBias();
 }
@@ -58,15 +59,14 @@ vector<float> Capa::cargarEntrada(vector<float> entradas, bool multiEntrada){
 }
 
 void Capa::cargarSimpleEntradas(vector<float> entradas){
-  vector<Neurona>::iterator neuronaSel;
-  int entradaSel=0;
   vector<float> entradaSimple(1);
-  for(neuronaSel = Neuronas.begin(); neuronaSel!=Neuronas.end(); neuronaSel++){
+  for(int neuronaSel = 0; neuronaSel < Neuronas.size(); neuronaSel++){
     //cargar capa de entrada
-	entradaSimple[0]=entradas[entradaSel];
-	neuronaSel->cargarEntradas(entradaSimple);
-	if(!neuronaSel->esBias)
-	  entradaSel++;
+	entradaSimple[0]=entradas[neuronaSel];
+	if(!Neuronas[neuronaSel].esBias){
+	  Neuronas[neuronaSel].esEntrada=true;
+	  Neuronas[neuronaSel].cargarEntradas(entradaSimple);
+	}
   }
 }
 
@@ -80,14 +80,9 @@ void Capa::cargarMultiEntradas(vector<float> entradas){
 }
 
 vector<float> Capa::ActivarCapa(){
-  vector<float> salidasCapa;
-  vector<Neurona>::iterator neuronaSel;
-  vector<float>::iterator pesosSel;
-  salidasCapa.resize(Neuronas.size());
-  int salidaSelect=0;
-  for(neuronaSel = Neuronas.begin(); neuronaSel!=Neuronas.end(); neuronaSel++){
-	salidasCapa[salidaSelect]=neuronaSel->salida;
-	++salidaSelect;
+  vector<float> salidasCapa(Neuronas.size());
+  for (int neuronaSelect = 0; neuronaSelect < Neuronas.size(); neuronaSelect++){
+	  salidasCapa[neuronaSelect]=Neuronas[neuronaSelect].salida;
   }
   return salidasCapa;
 }

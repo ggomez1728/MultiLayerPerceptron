@@ -13,7 +13,7 @@ RedMultiCapaPerceptron::RedMultiCapaPerceptron(int capas, int entradas, int ocul
   learn_rate = 0.5;
   //Normalmente momentum debe ser un valor entre 0.1 y 0.9.
   momentum = 0.2;
-  epochs = 100;
+  epochs = 2;
   numCapas=capas;
   //En CapaEntrada y CapasOculta se adiciona  una neurona para el bias
   Capa CapaEntrada(entradas,1,true);
@@ -48,11 +48,14 @@ void RedMultiCapaPerceptron::entrenar(){
   for(int noEpoch=0; noEpoch<epochs; noEpoch++){
 	//recorre todos los casos uno a uno
 	cout<<"<<<<<EPOCA>>>>>: "<<noEpoch << endl;
+
     for(vector<Caso>::iterator cc=dataTrain->begin();cc!=dataTrain->end();cc++){
 	  //Carga y Activacion primera capa en caso de que la entrada de cada neurona
 	  //tenga una conexion Simple, <ultimaActivacion> tiene la salidas
 	  feedForward(cc->entradasCaso);
+	  imprimirPesos();
 	  imprimirSalidas();
+      //revisar sentido de activacion problema!
 	  backPropagation(cc->salidasCaso);
 	  ajustarPesos();
 	  //calculamos el error en la epoca
@@ -65,15 +68,13 @@ void RedMultiCapaPerceptron::entrenar(){
 
 void RedMultiCapaPerceptron::feedForward(vector<float> entradas){
   //cargo las entradas del caso a la capa de entrada del multiCapa
-  entradas.push_back(1);
   capaVector[0].cargarSimpleEntradas(entradas);
-  ultimaActivacion=capaVector[0].ActivarCapa();
+  ultimaActivacion=entradas;
   //activacion  de capas  siguientes hasta la salida
   for(int noCapa = 1; noCapa < numCapas; noCapa++){
 	capaVector[noCapa].cargarMultiEntradas(ultimaActivacion);
 	ultimaActivacion=capaVector[noCapa].ActivarCapa();
   }
-
 }
 
 void  RedMultiCapaPerceptron::backPropagation(vector<float> salidas){
@@ -160,7 +161,7 @@ void RedMultiCapaPerceptron::imprimirPesos(){
 		cout << capaVector[noCapa].Neuronas[noNeurona].pesos[noPeso] << " ";
 	  }
 	  if(capaVector[noCapa].Neuronas[noNeurona].esBias) cout << "(bias)";
-	  cout << endl;
+	  cout <<  ">>>>" << capaVector[noCapa].Neuronas[noNeurona].salida << endl;
 	}
   }
 }

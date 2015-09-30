@@ -8,24 +8,24 @@ CPP_SRCS += \
 ../src/Caso.cpp \
 ../src/Data.cpp \
 ../src/Neurona.cpp \
-../src/PerceptronMultiCapa.cpp \
-../src/RedMultiCapaPerceptron.cpp 
+../src/RedMultiCapaPerceptron.cpp \
+../src/main.cpp 
 
 OBJS += \
 ./src/Capa.o \
 ./src/Caso.o \
 ./src/Data.o \
 ./src/Neurona.o \
-./src/PerceptronMultiCapa.o \
-./src/RedMultiCapaPerceptron.o 
+./src/RedMultiCapaPerceptron.o \
+./src/main.o 
 
 CPP_DEPS += \
 ./src/Capa.d \
 ./src/Caso.d \
 ./src/Data.d \
 ./src/Neurona.d \
-./src/PerceptronMultiCapa.d \
-./src/RedMultiCapaPerceptron.d 
+./src/RedMultiCapaPerceptron.d \
+./src/main.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
