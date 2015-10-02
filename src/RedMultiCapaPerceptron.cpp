@@ -57,7 +57,7 @@ void RedMultiCapaPerceptron::entrenar(){
       printinfo.printModel(capaVector);
       //revisar sentido de activacion problema!
 	  backPropagation(cc->salidasCaso);
-	  ajustarPesos();
+	  //ajustarPesos();
 	  //calculamos el error en la epoca
 
 	  //actualizamos los pesos
@@ -96,12 +96,11 @@ void  RedMultiCapaPerceptron::backPropagation(vector<float> salidas){
   // <-deltasTemp>
   // La derivada parcial de la función logística es la salida multiplicado por 1 menos la salida:
   // BackPorpagation capa salida, recorremos cada neurona de la capa
-  vector <Neurona>::iterator neuronaSel;
-  vector <float>::iterator pesoSel;
+
   cout << "Regla delta calculada" << endl;
   float deltaTemp=0;
   float deltaSum=1;
-  for (int capaSel = numCapas-1; capaSel>=0; --capaSel){
+  for (int capaSel = numCapas-1; capaSel>0; --capaSel){
     //calculando los valores delta para la capa de salida
 	for (int neuronaSel = 0; neuronaSel < capaVector[capaSel].Neuronas.size(); neuronaSel++){
 	  if (capaSel == numCapas-1){
@@ -116,6 +115,11 @@ void  RedMultiCapaPerceptron::backPropagation(vector<float> salidas){
 		capaVector[capaSel].Neuronas[neuronaSel].valorDelta =deltaTemp *
 				capaVector[capaSel].Neuronas[neuronaSel].salidaDerivada;
 	  }
+      for(int pesoSel = 0;pesoSel < capaVector[capaSel].Neuronas[neuronaSel].pesos.size(); pesoSel++){
+	    capaVector[capaSel].Neuronas[neuronaSel].pesos[pesoSel] =
+		   capaVector[capaSel].Neuronas[neuronaSel].pesos[pesoSel] -
+		  (learn_rate *(capaVector[capaSel].Neuronas[neuronaSel].valorDelta)*(capaVector[capaSel-1].Neuronas[neuronaSel].salida));
+      }
 	}
   }
 }
