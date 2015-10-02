@@ -9,7 +9,6 @@
 
 Capa::Capa(int neuronas, int entradaXneurona, bool isBias) {
   // TODO Auto-generated constructor stub
-	Delta=0;
 	Neuronas.resize(neuronas,entradaXneurona);
 	if(isBias)agregarBias();
 }
@@ -20,16 +19,15 @@ void Capa::inicializarCapa(){
 	neuronaSel->iniciarlizarNeurona();
   }
 }
-vector<float> Capa::calcularErrorCapa(vector<float> salidaEsperada){
-  vector<float> deltas;
-  deltas.resize(salidaEsperada.size());
-  if (salidaEsperada.size() == Neuronas.size()){
-	for(int neuronSel=0; neuronSel < salidaEsperada.size(); neuronSel++){
-      deltas[neuronSel] = salidaEsperada[neuronSel]-Neuronas[neuronSel].salida;
-    }
+vector<float> Capa::calcularErrorCapa(vector<float> salidas){
+  vector<float> diferencial;
+  diferencial = salidas;
+  for(int neuronSel = 0; neuronSel < salidas.size(); neuronSel++){
+	  diferencial[neuronSel] -= Neuronas[neuronSel].salida;
   }
-  return deltas;
+  return diferencial;
 }
+
 void Capa::agregarBias(){
   Neurona neuronaBias(1);
   neuronaBias.esBias = true;

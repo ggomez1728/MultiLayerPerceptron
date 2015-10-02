@@ -10,8 +10,10 @@
 #define REDMULTILABELPERCEPTRON_H_
 #include <vector>
 #include "Caso.h"
+#include "PrintInfo.h"
 using namespace std;
 class RedMultiCapaPerceptron {
+  PrintInfo printinfo;
   int numCapas;
   //learning rate
   float learn_rate;
@@ -32,8 +34,7 @@ public:
   void activar();
   void entrenar();
   void imprimirError(vector<float> errores);
-  void imprimirPesos();
-  void imprimirSalidas();
+
 
 };
 

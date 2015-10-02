@@ -30,7 +30,6 @@ inicializar:
 	//inicializacion mediante modelo aleatorio
 	RNA.inicializarPesos();
 	//mostrar pesos iniciales
-	RNA.imprimirPesos();
 	cout<<"Conexiones Inicializadas Aleatoriamente"<<endl;
   }
   else if(la =="2"){

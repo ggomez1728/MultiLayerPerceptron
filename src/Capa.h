@@ -12,7 +12,6 @@ using namespace std;
 class Capa {
 public:
   vector<Neurona> Neuronas;
-  float Delta;
   Capa(int neuronas,  int entradaXneurona, bool isBias);
   void inicializarCapa();
   void agregarBias();

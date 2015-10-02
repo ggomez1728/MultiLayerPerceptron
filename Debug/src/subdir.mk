@@ -8,6 +8,7 @@ CPP_SRCS += \
 ../src/Caso.cpp \
 ../src/Data.cpp \
 ../src/Neurona.cpp \
+../src/PrintInfo.cpp \
 ../src/RedMultiCapaPerceptron.cpp \
 ../src/main.cpp 
 
@@ -16,6 +17,7 @@ OBJS += \
 ./src/Caso.o \
 ./src/Data.o \
 ./src/Neurona.o \
+./src/PrintInfo.o \
 ./src/RedMultiCapaPerceptron.o \
 ./src/main.o 
 
@@ -24,6 +26,7 @@ CPP_DEPS += \
 ./src/Caso.d \
 ./src/Data.d \
 ./src/Neurona.d \
+./src/PrintInfo.d \
 ./src/RedMultiCapaPerceptron.d \
 ./src/main.d 
 
