@@ -30,16 +30,16 @@ int Data::getSalidasRNA(){
   return salidasRNA;
 }
 
-vector<Caso> Data::leerData(string archivo){
-	 ifstream leer;
+std::vector<Case> Data::leerData(std::string archivo){
+	std::ifstream leer;
 	  leer.open(archivo.c_str());
 	  leer >> capasRNA >> entradasRNA >> ocultasRNA >> salidasRNA;
-	  vector<Caso> dataReader;
+	  std::vector<Case> dataReader;
 	  while(!leer.eof()) {
-		Caso casoReader;
-		vector<float> entradasReader;
-		vector<float> salidasReader;
-		float readVar;
+		Case casoReader;
+		std::vector<double> entradasReader;
+		std::vector<double> salidasReader;
+		double readVar;
 		for(int i = 0; i < entradasRNA; i++) {
 		  leer >> readVar;
 		  entradasReader.push_back(readVar);

@@ -4,29 +4,26 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/Capa.cpp \
-../src/Caso.cpp \
+../src/Case.cpp \
 ../src/Data.cpp \
-../src/Neurona.cpp \
-../src/PrintInfo.cpp \
+../src/Layer.cpp \
+../src/Neuron.cpp \
 ../src/RedMultiCapaPerceptron.cpp \
 ../src/main.cpp 
 
 OBJS += \
-./src/Capa.o \
-./src/Caso.o \
+./src/Case.o \
 ./src/Data.o \
-./src/Neurona.o \
-./src/PrintInfo.o \
+./src/Layer.o \
+./src/Neuron.o \
 ./src/RedMultiCapaPerceptron.o \
 ./src/main.o 
 
 CPP_DEPS += \
-./src/Capa.d \
-./src/Caso.d \
+./src/Case.d \
 ./src/Data.d \
-./src/Neurona.d \
-./src/PrintInfo.d \
+./src/Layer.d \
+./src/Neuron.d \
 ./src/RedMultiCapaPerceptron.d \
 ./src/main.d 
 

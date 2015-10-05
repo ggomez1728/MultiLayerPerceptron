@@ -1,41 +1,40 @@
+
 /*
+
  * redMultiLabelPerceptron.h
  *
  *  Created on: 15 de ago. de 2015
  *      Author: german
  */
-#include "Capa.h"
-
+#define  RAND_MAX = 1;
+#include "Layer.h"
+#include <vector>
+#include "Case.h"
 #ifndef REDMULTILABELPERCEPTRON_H_
 #define REDMULTILABELPERCEPTRON_H_
-#include <vector>
-#include "Caso.h"
-#include "PrintInfo.h"
-using namespace std;
+
 class RedMultiCapaPerceptron {
-  PrintInfo printinfo;
   int numCapas;
   //learning rate
-  float learn_rate;
-  float momentum;
+  double learn_rate;
+  double momentum;
   //umbral
-  float threshold;
+  double threshold;
   int epochs;
-  float errorTotal;
-  void backPropagation(vector<float> salidas);
+  double errorTotal;
+  void feedForward(std::vector<double> inputTest);
+  void backPropagation(std::vector<double> salidas);
   void ajustarPesos();
-  void feedForward(vector<float> entradas);
+  std::vector<Case> *dataTrain;
 public:
-  vector<Capa> capaVector;
-  vector<float> ultimaActivacion;
-  vector<Caso> *dataTrain;
+  void setData(std::vector<Case> *dataIn);
+  std::vector<Layer> layerVector;
+  std::vector<double> lastActivation;
   RedMultiCapaPerceptron(int capas, int entradas, int salidas, int ocultas);
-  void inicializarPesos();
+  void randomWeights();
+  void trainingNeuralNetwork();
   void activar();
-  void entrenar();
-  void imprimirError(vector<float> errores);
-
-
+  void imprimirError(std::vector<double> errores);
 };
 
 #endif /* REDMULTILABELPERCEPTRON_H_ */

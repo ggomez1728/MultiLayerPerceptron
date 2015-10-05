@@ -1,13 +1,13 @@
 src/RedMultiCapaPerceptron.d: ../src/RedMultiCapaPerceptron.cpp \
- ../src/RedMultiCapaPerceptron.h ../src/Capa.h ../src/Neurona.h \
- ../src/Caso.h ../src/PrintInfo.h
+ ../src/RedMultiCapaPerceptron.h ../src/Layer.h ../src/Neuron.h \
+ ../src/Case.h ../src/printInfo.h
 
 ../src/RedMultiCapaPerceptron.h:
 
-../src/Capa.h:
+../src/Layer.h:
 
-../src/Neurona.h:
+../src/Neuron.h:
 
-../src/Caso.h:
+../src/Case.h:
 
-../src/PrintInfo.h:
+../src/printInfo.h:

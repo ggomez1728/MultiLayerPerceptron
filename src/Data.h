@@ -15,19 +15,20 @@
 #include <ctime>
 #include <algorithm>
 #include <cstdlib>
-#include "Caso.h"
-using namespace std;
+
+#include "Case.h"
+
 
 class Data {
   int capasRNA, entradasRNA, ocultasRNA, salidasRNA;
-  vector<Caso> dataFormat;
+  std::vector<Case> dataFormat;
 public:
 	Data();
 	int getCapasRNA();
 	int getEntradasRNA();
 	int getOcultasRNA();
 	int getSalidasRNA();
-	vector<Caso> leerData(string archivo);
+	std::vector<Case> leerData(std::string archivo);
 };
 
 #endif /* CARGARDATA_H_ */
