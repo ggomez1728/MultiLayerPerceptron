@@ -13,6 +13,7 @@ class Layer {
 public:
   std::vector<Neuron> Neurons;
   Layer(int NumberOfNeurons,  int InputsForNeuron);
+  Neuron operator[](int neuronSelect);
   void initializeLayer();
   void functionInitializeNeuron (Neuron neuronSelect);
   std::vector<double> calcularErrorCapa(std::vector<double> salidaEsperada);
@@ -20,6 +21,7 @@ public:
   void loadImputsForOutputLayer(std::vector<double> entradas);
   void loadImputsForInputLayer(std::vector<double> entradas);
   void loadImputsForHiddenLayer(std::vector<double> entradas);
+
   std::vector<double> ActivarCapa();
 };
 

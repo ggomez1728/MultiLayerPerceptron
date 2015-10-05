@@ -12,6 +12,9 @@ Layer::Layer(int NumberOfNeurons, int InputsForNeuron) {
  	Neurons.resize(NumberOfNeurons,InputsForNeuron);
 }
 
+Neuron Layer::operator [](int neuronSelect){
+  return Neurons[neuronSelect];
+}
 void Layer::initializeLayer(){
   std::vector<Neuron>::iterator neuronSelect;
   for(neuronSelect = Neurons.begin(); neuronSelect!=Neurons.end(); neuronSelect++){

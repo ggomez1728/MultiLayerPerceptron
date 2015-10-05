@@ -34,7 +34,6 @@ public:
   void randomWeights();
   void trainingNeuralNetwork();
   void activar();
-  void imprimirError(std::vector<double> errores);
 };
 
 #endif /* REDMULTILABELPERCEPTRON_H_ */

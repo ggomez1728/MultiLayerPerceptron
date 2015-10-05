@@ -14,8 +14,13 @@ Neuron::Neuron(int inputs) {
   outputNeuron = 1;
   outputNeuronDerivate=0;
   weights.resize(inputs,0);
-  deltaValue=0;
+  delta=0;
 }
+
+double Neuron::operator[](int neuronSelect){
+return weights[neuronSelect];
+}
+
 double Neuron::getOutNeuron(){
   return outputNeuron;
 }
@@ -23,7 +28,11 @@ double Neuron::getOutNeuronDerivate(){
   return outputNeuronDerivate;
 }
 double Neuron::getDeltaValue(){
-  return deltaValue;
+  return delta;
+}
+
+void Neuron::setDeltaValue(double deltaSet){
+delta = deltaSet;
 }
 
 void Neuron::initializeNeuron(){
@@ -40,6 +49,6 @@ void Neuron::setLoadInputs(std::vector<double> inputsValues){
 	outputNeuronDerivate = math::binary_sigmoidal_derivative(outputNeuron);
 }
 
-void Neuron::updateOfWeights(std::vector<double> Weights){
-
+void Neuron::SubtractWeight(int weightSelect, double valueToSubtract){
+  weights[weightSelect]-=valueToSubtract;
 }

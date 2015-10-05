@@ -15,7 +15,7 @@ RedMultiCapaPerceptron::RedMultiCapaPerceptron(int numberLayers, int numberInput
   learn_rate = 0.5;
   //Normalmente momentum debe ser un valor entre 0.1 y 0.9.
   momentum = 0.2;
-  epochs = 10;
+  epochs = 100;
   numCapas=numberLayers;
   //En CapaEntrada y CapasOculta se adiciona  una neurona para el bias
   Layer inputLayer(numberInputNeurons+1,1);
@@ -54,15 +54,18 @@ void RedMultiCapaPerceptron::activar(){
 }
 
 void RedMultiCapaPerceptron::trainingNeuralNetwork(){
+  double errorPerEpoch;
   for(int noEpoch=0; noEpoch<epochs; noEpoch++){
+	errorPerEpoch=0;
     for(vector<Case>::iterator cc =dataTrain->begin();cc!=dataTrain->end();cc++){
 	  printInfo::InputOutput(cc->inputsCase, cc->outputsCase);
       feedForward(cc->inputsCase);
       backPropagation(cc->outputsCase);
+      errorPerEpoch+=errorTotal;
 	  printInfo::Model(layerVector);
 	  ajustarPesos();
     }
-    //if (errorPerEpoch <= 0.01)break;
+    if (errorPerEpoch <= 0.01)break;
   }
 }
 
@@ -78,65 +81,48 @@ void RedMultiCapaPerceptron::feedForward(std::vector<double> inputTest){
 }
 
 void  RedMultiCapaPerceptron::backPropagation(std::vector<double> salidas){
-	std::vector<double> errorParcial = salidas;
+  std::vector<double> errorParcial = salidas;
   errorTotal=0;
-  //calculamos la diferencia entre la salida esperada y la salida calculada en el feedforward
   errorParcial = layerVector[numCapas-1].calcularErrorCapa(errorParcial);
-  imprimirError(errorParcial);
-  //calcular el error total cuadratico
-  for (vector<double>::iterator errorSel = errorParcial.begin();
-    errorSel!=errorParcial.end(); errorSel++){
-  	errorTotal += pow(*errorSel, 2)/2;
+  printInfo::errors(errorParcial);
+  for (vector<double>::iterator errorSelect = errorParcial.begin();
+		  errorSelect!=errorParcial.end(); errorSelect++){
+  	errorTotal += pow(*errorSelect, 2)/2;
   }
-  cout << "Error Total:" << errorTotal<< endl;
-  // The Backwards Pass
-  // Aplicando regla de la cadena sabemos
-  // Calculamos la derivada parcial del Error Total  con respecto a cada salida,
-  // para actualizar los pesos de la capa de salida, este derivada esta representada por:
-  // <-deltasTemp>
-  // La derivada parcial de la función logística es la salida multiplicado por 1 menos la salida:
-  // BackPorpagation capa salida, recorremos cada neurona de la capa
-
   cout << "Regla delta calculada" << endl;
   double deltaTemp=0;
-  double deltaSum=1;
-  for (int capaSel = numCapas-1; capaSel>0; --capaSel){
+  double deltaSum=0;
+  bool hasBias = false;
+  for (int layerSelect = numCapas-1; layerSelect>0; layerSelect--){
+	  if (layerSelect == numCapas-1)hasBias = false;
+	  else hasBias = true;
     //calculando los valores delta para la capa de salida
-	for (int neuronSel = 0; neuronSel < layerVector[capaSel].Neurons.size(); neuronSel++){
-	  if (capaSel == numCapas-1){
-		  layerVector[capaSel].Neurons[neuronSel].deltaValue = -(errorParcial[neuronSel])*
-		  		(layerVector[capaSel].Neurons[neuronSel].getOutNeuronDerivate());
-	  }else if ((capaSel == numCapas - 2) && (numCapas > 2)){
-		deltaTemp=0;
-		for (int neuronDer = 0; neuronDer < layerVector[capaSel + 1].Neurons.size(); neuronDer++){
-			deltaTemp +=  layerVector[capaSel+1].Neurons[neuronDer].weights[neuronSel] *
-					(layerVector[capaSel+1].Neurons[neuronDer].getDeltaValue());
-		}
-		layerVector[capaSel].Neurons[neuronSel].deltaValue =deltaTemp *
-				layerVector[capaSel].Neurons[neuronSel].getOutNeuronDerivate();
+	for (int neuronSel = 0; neuronSel < layerVector[layerSelect].Neurons.size(); neuronSel++){
+	  if (hasBias && neuronSel == layerVector[layerSelect].Neurons.size()-1)
+		  break;
+	  if (layerSelect == (numCapas-1)){
+		  deltaTemp = -(errorParcial[neuronSel]) * (layerVector[layerSelect][neuronSel].getOutNeuronDerivate());
+	  }else if ((layerSelect == numCapas - 2) && (numCapas > 2)){
+		  deltaSum=0;
+		  for (int neuronDer = 0; neuronDer < layerVector[layerSelect + 1].Neurons.size(); neuronDer++){
+			  deltaSum +=  layerVector[layerSelect+1][neuronDer][neuronSel] * (layerVector[layerSelect+1][neuronDer].getDeltaValue());
+		  }
+		  deltaTemp = deltaSum * layerVector[layerSelect].Neurons[neuronSel].getOutNeuronDerivate();
 	  }
+	  layerVector[layerSelect][neuronSel].setDeltaValue(deltaTemp);
 	}
   }
 }
 
 void RedMultiCapaPerceptron::ajustarPesos(){
   //Actualizar pesos capa de salida
-  for (int capaSel = numCapas-1; capaSel>0; capaSel--){
-	for(int neuronSel = 0; neuronSel < layerVector[capaSel].Neurons.size(); neuronSel++){
-	  for(int pesoSel = 0; pesoSel < layerVector[capaSel].Neurons[neuronSel].weights.size(); pesoSel++){
-		  layerVector[capaSel].Neurons[neuronSel].weights[pesoSel] =
-				layerVector[capaSel].Neurons[neuronSel].weights[pesoSel] -
-		   (learn_rate *(layerVector[capaSel].Neurons[neuronSel].getDeltaValue())* layerVector[capaSel].Neurons[neuronSel-1].getOutNeuron());
+	double learnValue;
+  for (int layerSelect = numCapas-1; layerSelect>0; layerSelect--){
+	for(int neuronSelect = 0; neuronSelect < layerVector[layerSelect].Neurons.size(); neuronSelect++){
+	  for(int pesoSel = 0; pesoSel < layerVector[layerSelect][neuronSelect].weights.size(); pesoSel++){
+		  learnValue = (learn_rate * (layerVector[layerSelect][neuronSelect].getDeltaValue()) * layerVector[layerSelect-1][neuronSelect].getOutNeuron());
+		  layerVector[layerSelect][neuronSelect].SubtractWeight(pesoSel,learnValue);
 	  }
 	}
-  }
-}
-
-
-void RedMultiCapaPerceptron::imprimirError(std::vector<double> errores){
-	std::vector<double>::iterator errorSel;
-  int salida=0;
-  for(errorSel=errores.begin(); errorSel!=errores.end(); errorSel++){
-    cout << "Error Salida("<< salida++<<")"<< *errorSel << endl;
   }
 }

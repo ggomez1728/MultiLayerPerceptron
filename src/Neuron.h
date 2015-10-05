@@ -17,17 +17,19 @@ public:
   std::vector<double> weights;
   double outputNeuron;
   double outputNeuronDerivate;
-  double deltaValue;
+  double delta;
 
   Neuron(int inputs);
+  double operator[](int neuronSelect);
   double getOutNeuron();
   double getOutNeuronDerivate();
   double getDeltaValue();
 
   void setLoadInputs(std::vector<double> inputs);
   void setLoadOutput(double outputNeuron);
+  void setDeltaValue(double deltaSet);
 
-  void updateOfWeights(std::vector<double> deltas);
+  void SubtractWeight(int weightSelect, double valueToSubtract);
   void initializeNeuron();
 
 };

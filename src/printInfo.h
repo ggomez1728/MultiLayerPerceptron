@@ -4,6 +4,7 @@
  *  Created on: 1 de oct. de 2015
  *      Author: german
  */
+#include <algorithm>
 #include <iostream>
 #include <stdio.h>      /* printf, scanf, puts, NULL */
 
@@ -14,6 +15,15 @@ using namespace std;
 
 namespace printInfo {
 
+void errorSel (double i) {  // function:
+  std::cout << ' ' << i;
+}
+
+void errors(std::vector<double> errors){
+  std::cout << "Errors Outputs:";
+  for_each (errors.begin(), errors.end(), errorSel);
+    std::cout << endl;
+}
 void InputOutput(vector<double> entradas, vector<double> salidas){
   vector<double>::iterator valores;
   cout<< "CASO DE PRUEBA"<< endl;
@@ -36,10 +46,10 @@ void Model(vector<Layer> MLP){
 	for(int noNeuron = 0; noNeuron < MLP[noCapa].Neurons.size(); noNeuron++){
 	  cout << "        Neurona(" << noNeuron << ")= " ;
 	  for(int noPeso = 0; noPeso < MLP[noCapa].Neurons[noNeuron].weights.size(); noPeso++){
-		cout << MLP[noCapa].Neurons[noNeuron].weights[noPeso] << " ";
+		cout << MLP[noCapa][noNeuron][noPeso] << " ";
 	  }
-	  cout <<  ">>>>" << MLP[noCapa].Neurons[noNeuron].getOutNeuron() << endl;
-	  cout << "        Delta(" << MLP[noCapa].Neurons[noNeuron].getDeltaValue() << ")"<<endl ;
+	  cout <<  ">>>>" << MLP[noCapa][noNeuron].getOutNeuron() << endl;
+	  cout << "        Delta(" << MLP[noCapa][noNeuron].getDeltaValue() << ")"<<endl ;
 	}
   }
 }
