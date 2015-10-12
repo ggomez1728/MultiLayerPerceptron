@@ -1,54 +1,41 @@
 /*
  * Neuron.cpp
  *
- *  Created on: 15 de ago. de 2015
- *      Author: Germán Gómez
+ *  Created on: 10 de oct. de 2015
+ *      Author: german
  */
-#include <numeric>
-#include <algorithm>    // std::generate
+#include <iostream>
 #include "Neuron.h"
-#include "math.h"
+#include <numeric>      // std::inner_product
 
-Neuron::Neuron(int inputs) {
-  // TODO Auto-generated constructor stub
-  outputNeuron = 1;
-  outputNeuronDerivate=0;
-  weights.resize(inputs,0);
-  delta=0;
+Neuron::Neuron(int nInputs) {
+	nInputs++; // add bias
+	weights = inputs_t(nInputs);
+	last_output = NULL;
 }
 
-double Neuron::operator[](int neuronSelect){
-return weights[neuronSelect];
+output_t Neuron::activate(const inputs_t& inputs) {
+	auto weighted_sum = std::inner_product(inputs.begin(), inputs.end(), weights.begin(), 0.0);
+	weighted_sum += weights.back(); // add input for bias (weight*1)
+	return (1.0 / (1.0 + exp(-weighted_sum)));
+	//return last_output = transfer_function(weighted_sum);
 }
 
-double Neuron::getOutNeuron(){
-  return outputNeuron;
-}
-double Neuron::getOutNeuronDerivate(){
-  return outputNeuronDerivate;
-}
-double Neuron::getDeltaValue(){
-  return delta;
+// para asignar pesos externamente
+void Neuron::setParams(params_t::const_iterator& param_iterator) {
+	for (auto i = 0; i < weights.size(); ++i) {
+		weights[i] = *param_iterator;
+		++param_iterator;
+	}
 }
 
-void Neuron::setDeltaValue(double deltaSet){
-delta = deltaSet;
+void Neuron::getParams(params_t::iterator& param_iterator) {
+	for (auto weight: weights) {
+		*param_iterator = weight;
+		++param_iterator;
+	}
 }
 
-void Neuron::initializeNeuron(){
-  std::generate(weights.begin(), weights.end(), math::RandomNumber);
-}
-
-void Neuron::setLoadOutput(double setOutputNeuron){
-	outputNeuron = setOutputNeuron;
-}
-
-void Neuron::setLoadInputs(std::vector<double> inputsValues){
-	outputNeuron = std::inner_product(weights.begin(), weights.end(), inputsValues.begin(), 0.0);
-	outputNeuron = math::binary_sigmoidal(outputNeuron);
-	outputNeuronDerivate = math::binary_sigmoidal_derivative(outputNeuron);
-}
-
-void Neuron::SubtractWeight(int weightSelect, double valueToSubtract){
-  weights[weightSelect]-=valueToSubtract;
+int Neuron::nParams() {
+	return weights.size();
 }
