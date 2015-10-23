@@ -30,11 +30,13 @@ MLP::MLP(int nHiddenLayers, int nNodesPerHiddenLayer, int nInputs, int nOutputs)
 }
 
 outputs_t MLP::feedForward(inputs_t inputs) {
+	outputs_layers.clear();
 	for (auto& layer: layers) {   			//runs through every layer
 		outputs = outputs_t(layer.size());	// outputs per layer
 		for (int j = 0; j < layer.size(); ++j) {
 			outputs[j] = layer[j].activate(inputs);		//fills the outputs vector
 		}
+		outputs_layers.push_back(outputs);
 		// si no es la última capa, volver los outputs de esta capa los inputs de la siguiente capa
 		if (&layer != &layers.back()) inputs = std::move(outputs);
 	}

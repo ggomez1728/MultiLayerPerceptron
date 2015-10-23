@@ -1,57 +1,41 @@
 /*
- * CargarData.cpp
+ * Data.cpp
  *
- *  Created on: 16 de ago. de 2015
+ *  Created on: 22 de oct. de 2015
  *      Author: german
  */
 
+#include <cstdio>
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <vector>
+#include <ctime>
+#include <algorithm>
+#include <cstdlib>
 #include "Data.h"
 
-Data::Data() {
-  // TODO Auto-generated constructor stub
-  capasRNA=0;
-  entradasRNA=0;
-  ocultasRNA=0;
-  salidasRNA=0;
-}
-int Data::getCapasRNA(){
-  return capasRNA;
-}
-
-int Data::getEntradasRNA(){
-  return entradasRNA;
-}
-
-int Data::getOcultasRNA(){
-  return ocultasRNA;
-}
-
-int Data::getSalidasRNA(){
-  return salidasRNA;
-}
-
-std::vector<Case> Data::leerData(std::string archivo){
+Data::Data(std::string archivo) {
 	std::ifstream leer;
-	  leer.open(archivo.c_str());
-	  leer >> capasRNA >> entradasRNA >> ocultasRNA >> salidasRNA;
-	  std::vector<Case> dataReader;
-	  while(!leer.eof()) {
-		Case casoReader;
-		std::vector<double> entradasReader;
-		std::vector<double> salidasReader;
+	nHiddenLayers = 0;
+	nNodesPerHiddenLayer = 0;
+	nInputs = 0;
+	nOutputs = 0;
+	leer.open(archivo.c_str());
+	leer >> nHiddenLayers >> nNodesPerHiddenLayer >> nInputs >> nOutputs;
+	while(!leer.eof()) {
+		inputs_t inputsReader;
+		outputs_t outputsReader;
 		double readVar;
-		for(int i = 0; i < entradasRNA; i++) {
-		  leer >> readVar;
-		  entradasReader.push_back(readVar);
+		for(int i = 0; i < nInputs; i++) {
+			leer >> readVar;
+			inputsReader.push_back(readVar);
 		}
-		//carga la entrada del bias
-		entradasReader.push_back(1);
-		for(int j = 0; j < salidasRNA; j++) {
-		  leer >> readVar;
-	      salidasReader.push_back(readVar);
+		for(int j = 0; j < nOutputs; j++) {
+			leer >> readVar;
+			outputsReader.push_back(readVar);
 		}
-		casoReader.cargarCaso(entradasReader,salidasReader);
-		dataReader.push_back(casoReader);
-	  }
-	  return dataReader;
+		data_inputs.push_back(inputsReader);
+		data_outputs.push_back(outputsReader);
+	}
 }

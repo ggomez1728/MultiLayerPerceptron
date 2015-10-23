@@ -13,9 +13,10 @@
 class Trainer {
 		MLP& nn;
 	public:
-		std::vector<inputs_t> training_inputs;
-		std::vector<outputs_t> training_outputs;
+		training_inputs_t training_inputs;
+		training_outputs_t training_outputs;
 		Trainer(MLP& nn): nn(nn){}
+		//Trainer(MLP& _nn);
 		double costFunctionPerCase(int _case);
 		double costFunction();
 		params_t costFunctionPrime();

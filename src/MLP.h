@@ -10,12 +10,14 @@
 #include "Neuron.h"
 typedef std::vector<Neuron> layer_t;
 typedef std::vector<layer_t> layers_t;
+
 class MLP {
 	private:
 		layers_t layers;
 		int _nParams;
 		void calculateNParams(int nInputNeurons, int nHiddenNeurons, int nOutputNeurons);
 	public:
+		outputs_layers_t  outputs_layers;
 		outputs_t outputs;
 		MLP(int nHiddenLayers, int nNodesPerHiddenLayer, int nInputs, int nOutputs);
 		outputs_t feedForward(inputs_t inputs);
