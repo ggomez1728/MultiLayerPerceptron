@@ -16,7 +16,11 @@ void MLP::calculateNParams(int nInputNeurons, int nHiddenNeurons, int nOutputNeu
 	_nParams = nparams_input + nparams_hidden + nparams_output;
 }
 
-MLP::MLP(int nHiddenLayers, int nNodesPerHiddenLayer, int nInputs, int nOutputs) {
+MLP::MLP(int nHiddenLayers_, int nNodesPerHiddenLayer_, int nInputs_, int nOutputs_) {
+	nHiddenLayers = nHiddenLayers_;
+	nNodesPerHiddenLayer = nNodesPerHiddenLayer_;
+	nInputs = nInputs_;
+	nOutputs = nOutputs_;
 	layers = layers_t(nHiddenLayers+1);
 	// create input layer
 	layers[0] = layer_t(nNodesPerHiddenLayer, Neuron(nInputs));
@@ -33,7 +37,7 @@ outputs_t MLP::feedForward(inputs_t inputs) {
 	outputs_layers.clear();
 	for (auto& layer: layers) {   			//runs through every layer
 		outputs = outputs_t(layer.size());	// outputs per layer
-		for (int j = 0; j < layer.size(); ++j) {
+		for(int j = 0; j < layer.size(); ++j) {
 			outputs[j] = layer[j].activate(inputs);		//fills the outputs vector
 		}
 		outputs_layers.push_back(outputs);

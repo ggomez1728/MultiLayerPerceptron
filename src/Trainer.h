@@ -19,7 +19,8 @@ class Trainer {
 		//Trainer(MLP& _nn);
 		double costFunctionPerCase(int _case);
 		double costFunction();
-		params_t costFunctionPrime();
+		params_t costFunctionPrime(int _case);
+		params_t updateWeight(int _case);
 		void train();
 };
 
